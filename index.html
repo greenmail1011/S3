@@ -4,7 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>S3 操作手冊</title>
+<title>S3 足球無人機操作手冊</title>
+<!-- ▼ 放上 GitHub 後，把下面 3 個網址裡的 USERNAME 和 REPO 換成你的帳號和倉庫名稱 ▼ -->
+<meta name="description" content="S3 足球無人機與遙控器查詢手冊：燈號、按鍵、對碼與校正、翻機處理、ELRS 與 TX16S 設定、示範影片。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="S3 足球無人機操作手冊">
+<meta property="og:description" content="燈號、按鍵、對碼與校正、翻機處理、ELRS 與 TX16S 設定，隨時查。">
+<meta property="og:url" content="https://USERNAME.github.io/REPO/">
+<meta property="og:image" content="https://USERNAME.github.io/REPO/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://USERNAME.github.io/REPO/og-image.png">
+<!-- ▲ 只要改上面三處 ▲ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -411,6 +424,7 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   upd();
 
   // ===== 示範影片（可編輯）=====
+  // ▼ 影片清單：要改名稱、說明、連結，直接改這裡 ▼
   const FALLBACK=[
     {id:'v1',title:'示範影片 1',note:'',url:'https://youtube.com/shorts/vFB2kmYEk80',order:1},
     {id:'v2',title:'示範影片 2',note:'',url:'https://youtube.com/shorts/uB5x5IU6J_s',order:2}];
@@ -460,14 +474,15 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   document.getElementById('vadd').onclick=()=>{editing='__new';render();list.querySelector('.vform input')?.focus()};
   (async()=>{
     const db=(window.claude&&window.claude.use)?await window.claude.use('db'):null;
-    if(!db){ // 單機檔：編輯內容存在這台電腦的瀏覽器
+    if(!db){ // GitHub／單機檔：網址加上 ?edit 才能編輯，內容只存在這台電腦的瀏覽器
+      if(!/[?&]edit\b/.test(location.search))return;
       const KEY='s3-videos';
       try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(Array.isArray(s))videos=s}catch(e){}
       const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(videos))}catch(e){};videos.sort((a,b)=>a.order-b.order);render()};
       col={doc:id=>({set:async d=>{const i=videos.findIndex(v=>v.id===id);const r=Object.assign({id},d);if(i<0)videos.push(r);else videos[i]=r;persist()},
                      delete:async()=>{videos=videos.filter(v=>v.id!==id);persist()}}),
            add:async d=>{videos.push(Object.assign({id:'v'+Date.now()},d));persist()}};
-      canWrite=true;tools.hidden=false;msg.textContent='（此檔案的修改只存在這台電腦的瀏覽器）';render();return;
+      canWrite=true;tools.hidden=false;msg.textContent='編輯模式：修改只存在這台電腦的瀏覽器。要讓所有人看到，請改 index.html 裡的影片清單（搜尋 FALLBACK）。';render();return;
     }
     const user=await window.claude.use('user');
     col=db.collection('videos');
