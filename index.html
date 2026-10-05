@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>S3 足球無人機操作手冊</title>
-<!-- ▼ 放上 GitHub 後，把下面 3 個網址裡的 USERNAME 和 REPO 換成你的帳號和倉庫名稱 ▼ -->
+<!-- 分享預覽設定（GitHub Pages：greenmail1011.github.io/S3） -->
 <meta name="description" content="S3 足球無人機與遙控器查詢手冊：燈號、按鍵、對碼與校正、翻機處理、ELRS 與 TX16S 設定、示範影片。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="S3 足球無人機操作手冊">
 <meta property="og:description" content="燈號、按鍵、對碼與校正、翻機處理、ELRS 與 TX16S 設定，隨時查。">
-<meta property="og:url" content="https://USERNAME.github.io/REPO/">
-<meta property="og:image" content="https://USERNAME.github.io/REPO/og-image.png">
+<meta property="og:url" content="https://greenmail1011.github.io/S3/">
+<meta property="og:image" content="https://greenmail1011.github.io/S3/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://USERNAME.github.io/REPO/og-image.png">
-<!-- ▲ 只要改上面三處 ▲ -->
+<meta name="twitter:image" content="https://greenmail1011.github.io/S3/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -190,38 +190,21 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   <div class="bars"><i></i><i></i><i></i></div>
   <p>內容取自 S3 原廠遙控器說明書與威寰操作說明，2026 年 10 月 3 日整理。</p>
   <ol class="index">
-    <li><a href="#s1"><span>1</span>上場前要記住的</a></li>
-    <li><a href="#s2"><span>2</span>燈號</a></li>
-    <li><a href="#s3"><span>3</span>遙控器按鍵</a></li>
-    <li><a href="#s4"><span>4</span>對碼與校正</a></li>
-    <li><a href="#s5"><span>5</span>模式、燈光、微調</a></li>
-    <li><a href="#s6"><span>6</span>翻機處理</a></li>
-    <li><a href="#s7"><span>7</span>ELRS 與 TX16S</a></li>
-    <li><a href="#s8"><span>8</span>練習項目</a></li>
-    <li><a href="#s9"><span>9</span>示範影片</a></li>
+    <li><a href="#s1"><span>1</span>燈號</a></li>
+    <li><a href="#s2"><span>2</span>遙控器按鍵</a></li>
+    <li><a href="#s3"><span>3</span>對碼與校正</a></li>
+    <li><a href="#s4"><span>4</span>模式、燈光、微調</a></li>
+    <li><a href="#s5"><span>5</span>翻機處理</a></li>
+    <li><a href="#s6"><span>6</span>ELRS 與 TX16S</a></li>
+    <li><a href="#s7"><span>7</span>練習項目</a></li>
+    <li><a href="#s8"><span>8</span>示範影片</a></li>
   </ol>
   <div class="motto">先看燈號，再動手。<small>翻機或要重新開槳時，先看飛機燈圈是哪一種閃法。</small></div>
 </header>
 <p id="none">沒有找到。換個說法試試，例如「烏龜」「油門」「燈」。</p>
 
 <section id="s1" class="s">
-  <h2><b>1</b>上場前要記住的</h2><div class="bars"><i></i><i></i><i></i></div>
-  <div class="tbl u"><table class="lookup">
-    <tr><th>燈圈</th><th>代表</th><th>要做的事</th></tr>
-    <tr><td><div class="ring chase" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td>
-      <td class="what">一圈一圈閃<br><span class="src">反烏龜模式</span></td>
-      <td><span class="act">烏龜翻鍵連按 2 下</span><br>沒翻過來就再按，換下一組馬達。</td></tr>
-    <tr><td><div class="ring fast" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td>
-      <td class="what">整圈快閃<br><span class="src">無定高相關狀態</span></td>
-      <td><span class="act">油門收到底，再開槳</span><br>油門沒收就開槳，馬達可能突然出力。</td></tr>
-    <tr><td><div class="ring" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td>
-      <td class="what">不是上面兩種</td>
-      <td><span class="act">開槳，用搖桿把飛機翻出來</span></td></tr>
-  </table></div>
-</section>
-
-<section id="s2" class="s">
-  <h2><b>2</b>燈號</h2><div class="bars"><i></i><i></i><i></i></div>
+  <h2><b>1</b>燈號</h2><div class="bars"><i></i><i></i><i></i></div>
   <h3 class="u">飛機燈圈</h3>
   <div class="tbl u"><table class="lookup">
     <tr><th>燈圈</th><th>說明書寫的</th><th>處理</th></tr>
@@ -242,8 +225,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </table></div>
 </section>
 
-<section id="s3" class="s">
-  <h2><b>3</b>遙控器按鍵</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s2" class="s">
+  <h2><b>2</b>遙控器按鍵</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="two">
     <div class="tbl u"><table class="t">
       <tr><th>編號</th><th>按鍵</th><th>在哪裡</th></tr>
@@ -263,8 +246,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s4" class="s">
-  <h2><b>4</b>對碼與校正</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s3" class="s">
+  <h2><b>3</b>對碼與校正</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>對碼（對頻）</h3>
     <ol class="seq">
       <li>飛機接上電池，電源鍵連續快按 3 下，燈全部快閃，進入對頻。</li>
@@ -292,8 +275,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s5" class="s">
-  <h2><b>5</b>模式、燈光、微調</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s4" class="s">
+  <h2><b>4</b>模式、燈光、微調</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>Mode 1／Mode 2</h3>
     <div class="tbl"><table class="t">
       <tr><th></th><th>怎麼進入</th><th>左搖桿</th><th>右搖桿</th></tr>
@@ -312,8 +295,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s6" class="s">
-  <h2><b>6</b>翻機處理</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s5" class="s">
+  <h2><b>5</b>翻機處理</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>反烏龜（燈一圈一圈閃）</h3>
     <p>機身倒超過 90 度，燈圈會跑馬燈。快按 2 下烏龜翻鍵 <span class="num">4</span>，每按一次換一組馬達轉：</p>
     <div class="tbl"><table class="t" style="max-width:320px">
@@ -328,11 +311,11 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <p>直接開槳，靠馬達推力加上搖桿方向，讓飛機自己翻出來。</p></div>
   <div class="u"><h3>無定高模式：油門到底再開槳</h3>
     <ol class="seq"><li>油門收到最底</li><li>開槳</li><li>開始飛</li></ol>
-    <p>為什麼要這樣做，有兩個原因。第一是安全：飛機走 ELRS，跟一般無刷 FPV 機一樣，摔了、撞了或重開時要先收油門，馬達才不會一開就衝。第二是讓系統抓到油門的最低點：如果開槳時搖桿停在中間，系統會把中間當成 0，後面整段油門都會跑掉。</p></div>
+    <p>這樣做是為了安全：飛機走 ELRS，跟一般無刷 FPV 機一樣，摔了、撞了或重開時要先收油門，馬達才不會一開就衝。</p></div>
 </section>
 
-<section id="s7" class="s">
-  <h2><b>7</b>ELRS 與 TX16S</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s6" class="s">
+  <h2><b>6</b>ELRS 與 TX16S</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>TX16S 通道設定</h3>
     <div class="two">
       <div class="tbl"><table class="t">
@@ -353,8 +336,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <p>學校想改 ELRS，可以直接買已經焊好的接收機接上飛機，不用自己焊。</p></div>
 </section>
 
-<section id="s8" class="s">
-  <h2><b>8</b>練習項目</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s7" class="s">
+  <h2><b>7</b>練習項目</h2><div class="bars"><i></i><i></i><i></i></div>
   <p class="u">只會正常飛不夠，翻機和重開這些狀況也要排進平常練習。</p>
   <div class="check u" id="checklist">
     <div class="top"><span id="prog"></span><button id="reset">全部取消</button></div>
@@ -368,8 +351,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s9" class="s">
-  <h2><b>9</b>示範影片</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s8" class="s">
+  <h2><b>8</b>示範影片</h2><div class="bars"><i></i><i></i><i></i></div>
   <ol class="vids" id="vids"></ol>
   <div class="vtools" id="vtools" hidden><button id="vadd">新增影片</button><span class="src" id="vmsg"></span></div>
 </section>
