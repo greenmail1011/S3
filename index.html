@@ -399,11 +399,15 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     if(!v){sections.forEach(s=>s.classList.remove('hidden'));document.querySelectorAll('.u').forEach(u=>u.classList.remove('hidden'));extra.forEach(e=>e.classList.remove('hidden'));none.style.display='none';return}
     const terms=(syn[v]||v.split(/\s+/)).filter(Boolean),hit=t=>terms.some(x=>t.toLowerCase().includes(x.toLowerCase()));
     extra.forEach(e=>e.classList.add('hidden'));
-    let any=false;
-    sections.forEach(s=>{
+    // 先只找「示範影片」和「遙控器按鍵」；兩處都沒有，才找其他章節
+    const PRIMARY=['s1','s3'];
+    const scan=list=>{let any=false;sections.forEach(s=>{
+      if(!list.includes(s)){s.classList.add('hidden');return}
       const all=hit(s.querySelector('h2').textContent);let n=0;
       s.querySelectorAll('.u').forEach(u=>{const ok=all||hit(u.textContent+' '+[...u.querySelectorAll('img')].map(i=>i.alt).join(' '));u.classList.toggle('hidden',!ok);if(ok)n++});
-      s.classList.toggle('hidden',!n);if(n)any=true});
+      s.classList.toggle('hidden',!n);if(n)any=true});return any};
+    let any=scan(sections.filter(s=>PRIMARY.includes(s.id)));
+    if(!any)any=scan(sections);
     none.style.display=any?'none':'block';mark(terms);
   }
   let t;q.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(run,120)});
