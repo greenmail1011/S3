@@ -17,7 +17,6 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://greenmail1011.github.io/S3/og-image.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -92,24 +91,21 @@ li{margin:2px 0}
 .lookup .what{font-weight:700}
 .lookup .act{font-weight:700;color:var(--red)}
 
-/* 燈圈：以說明書線稿風格表現 */
-.ring{width:72px;height:72px;border-radius:50%;border:1.5px solid var(--ink);position:relative;background:#fff}
-.ring i{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--off);border:1px solid var(--bar2);left:30px;top:30px}
-.ring i:nth-child(1){transform:translate(0,-24px)}.ring i:nth-child(2){transform:translate(17px,-17px)}
-.ring i:nth-child(3){transform:translate(24px,0)}.ring i:nth-child(4){transform:translate(17px,17px)}
-.ring i:nth-child(5){transform:translate(0,24px)}.ring i:nth-child(6){transform:translate(-17px,17px)}
-.ring i:nth-child(7){transform:translate(-24px,0)}.ring i:nth-child(8){transform:translate(-17px,-17px)}
-@keyframes on1{0%,30%{background:var(--red);border-color:var(--red)}31%,100%{background:var(--off);border-color:var(--bar2)}}
+/* 燈號圖：同一圈 16 顆，下方 6 顆是尾燈（方形），其餘 10 顆是環形燈 */
+.led{width:96px;height:96px;border-radius:50%;border:1.5px solid var(--ink);position:relative;background:#fff;flex:none}
+.led i{position:absolute;left:43px;top:43px;width:10px;height:10px;border-radius:50%;background:var(--off);border:1px solid var(--bar2)}
+.led-key{font-size:13px;color:var(--sub);margin:4px 0 0}
+.led-key i{display:inline-block;width:10px;height:10px;border:1px solid var(--bar2);background:var(--off);vertical-align:-1px;margin:0 2px}
+.led-key i{border-radius:50%}
+@keyframes on1{0%,24%{background:var(--red);border-color:var(--red)}25%,100%{background:var(--off);border-color:var(--bar2)}}
 @keyframes on2{0%,49%{background:var(--red);border-color:var(--red)}50%,100%{background:var(--off);border-color:var(--bar2)}}
-.chase i{animation:on1 .8s linear infinite}
-.chase i:nth-child(2){animation-delay:.1s}.chase i:nth-child(3){animation-delay:.2s}.chase i:nth-child(4){animation-delay:.3s}
-.chase i:nth-child(5){animation-delay:.4s}.chase i:nth-child(6){animation-delay:.5s}.chase i:nth-child(7){animation-delay:.6s}.chase i:nth-child(8){animation-delay:.7s}
+.chase i{animation:on1 .8s linear infinite;animation-delay:var(--d)}
 .fast i{animation:on2 .25s steps(1) infinite}
-.three i:nth-child(-n+6){animation:on2 1s steps(1) infinite}
-.tail i:nth-child(5){animation:on2 1.6s steps(1) infinite}
+.three i.r{animation:on2 1s steps(1) infinite}
+.headless i.t{animation:on2 1.6s steps(1) infinite}
 @media (prefers-reduced-motion:reduce){
-  .ring i{animation:none!important}
-  .chase i:nth-child(odd),.fast i,.three i:nth-child(-n+6),.tail i:nth-child(5){background:var(--red);border-color:var(--red)}
+  .led i{animation:none!important}
+  .chase i:nth-child(-n+4),.fast i,.three i.r,.headless i.t{background:var(--red);border-color:var(--red)}
 }
 
 /* 一般表格 */
@@ -142,21 +138,28 @@ video{width:100%;max-height:72vh;background:#000}
 .check .top button{font:inherit;border:0;background:none;color:var(--sub);text-decoration:underline;cursor:pointer;padding:0}
 
 
-.vids{list-style:none;margin:8px 0;padding:0;counter-reset:v}
-.vids li{counter-increment:v;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:14px 0;border-top:1px solid var(--rule)}
-.vids li:last-child{border-bottom:1px solid var(--rule)}
-.vids .play{grid-row:span 3;width:64px;height:64px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;text-decoration:none;position:relative}
-.vids .play::after{content:"";border-left:16px solid var(--red);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
-.vids .play:hover{background:var(--red-soft)}
-.vids h4{margin:0;font-size:17px;font-weight:700}
+.vids{list-style:none;margin:8px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px 18px}
 .vtools[hidden]{display:none}
-.vids p{margin:0;white-space:pre-line}
+.vids li{display:flex;flex-direction:column;gap:8px;min-width:0}
+.vids h4{margin:0;font-size:16px;font-weight:700;line-height:1.5;min-height:3em}
+.vids .yt{position:relative;display:block;width:100%;max-width:340px;aspect-ratio:9/16;background:#1b1b1b;border:1px solid var(--ink);padding:0;cursor:pointer;overflow:hidden}
+.vids .yt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vids .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vids .pbtn{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:var(--red);box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.vids .pbtn::after{content:"";position:absolute;left:25px;top:19px;border-left:20px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent}
+.vids .yt:hover .pbtn{transform:scale(1.08)}
+.vids .play{position:relative;width:100%;max-width:340px;aspect-ratio:9/16;background:#1b1b1b;color:#fff;border:1px solid var(--ink);display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:16px;text-decoration:none}
+.vids .play strong{font-size:17px;line-height:1.4}
+.vids .play small{font-size:13px;opacity:.75}
+.vids .play:hover .pbtn{transform:scale(1.08)}
+.vids p{margin:0;white-space:pre-line;font-size:15px}
 .vids .row{display:flex;gap:14px;font-size:14px}
 .vids .row a{color:var(--red)}
 .vids .row button,.vtools button,.vform button{font:inherit;font-size:14px;border:0;background:none;color:var(--sub);text-decoration:underline;cursor:pointer;padding:0}
+@media (max-width:520px){.vids{grid-template-columns:1fr}.vids .yt,.vids .play{max-width:none;margin:0 auto}}
 .vtools{margin-top:12px;display:flex;gap:14px;align-items:center}
 .vtools button{border:1px solid var(--ink);text-decoration:none;color:var(--ink);padding:4px 12px}
-.vform{grid-column:1/-1;display:grid;gap:8px;margin-top:8px;background:#F7F7F5;padding:12px;border:1px solid var(--rule)}
+.vform{display:grid;gap:8px;margin-top:8px;background:#F7F7F5;padding:12px;border:1px solid var(--rule)}
 .vform label{font-size:13px;color:var(--sub);display:grid;gap:2px}
 .vform input,.vform textarea{font:inherit;font-size:15px;padding:6px 8px;border:1px solid var(--bar2);border-radius:3px;background:#fff;color:var(--ink);width:100%}
 .vform textarea{min-height:70px;resize:vertical}
@@ -180,7 +183,7 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <input id="q" type="search" placeholder="輸入功能或燈號，例如：對碼" autocomplete="off">
     <button id="clear" hidden>清除</button>
   </div>
-  <div class="words" id="words">常查：<button>反烏龜</button><button>油門到底</button><button>對碼</button><button>校正</button><button>定高</button><button>Mode</button><button>微調</button><button>燈光</button><button>TX16S</button><button>ELRS</button><button>影片</button></div>
+  <div class="words" id="words">常查：<button>反烏龜</button><button>左搖桿到底</button><button>對碼</button><button>校正</button><button>定高</button><button>Mode</button><button>微調</button><button>燈光</button><button>TX16S</button><button>ELRS</button><button>影片</button></div>
 </div>
 
 <div class="page">
@@ -188,32 +191,38 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   <h1>S3</h1>
   <p class="sub">足球無人機操作手冊</p>
   <div class="bars"><i></i><i></i><i></i></div>
-  <p>內容取自 S3 原廠遙控器說明書與威寰操作說明，2026 年 10 月 3 日整理。</p>
+  <p>內容取自 S3 原廠遙控器說明書與小宇宙操作說明，2026 年 10 月 3 日整理。</p>
   <ol class="index">
-    <li><a href="#s1"><span>1</span>燈號</a></li>
-    <li><a href="#s2"><span>2</span>遙控器按鍵</a></li>
-    <li><a href="#s3"><span>3</span>對碼與校正</a></li>
-    <li><a href="#s4"><span>4</span>模式、燈光、微調</a></li>
-    <li><a href="#s5"><span>5</span>翻機處理</a></li>
-    <li><a href="#s6"><span>6</span>ELRS 與 TX16S</a></li>
-    <li><a href="#s7"><span>7</span>練習項目</a></li>
-    <li><a href="#s8"><span>8</span>示範影片</a></li>
+    <li><a href="#s1"><span>1</span>示範影片</a></li>
+    <li><a href="#s2"><span>2</span>燈號</a></li>
+    <li><a href="#s3"><span>3</span>遙控器按鍵</a></li>
+    <li><a href="#s4"><span>4</span>對碼與校正</a></li>
+    <li><a href="#s5"><span>5</span>模式、燈光、微調</a></li>
+    <li><a href="#s6"><span>6</span>翻機處理</a></li>
+    <li><a href="#s7"><span>7</span>ELRS 與 TX16S</a></li>
+    <li><a href="#s8"><span>8</span>練習項目</a></li>
   </ol>
-  <div class="motto">先看燈號，再動手。<small>翻機或要重新開槳時，先看飛機燈圈是哪一種閃法。</small></div>
 </header>
-<p id="none">沒有找到。換個說法試試，例如「烏龜」「油門」「燈」。</p>
+<p id="none">沒有找到。換個說法試試，例如「烏龜」「搖桿」「燈」。</p>
 
 <section id="s1" class="s">
-  <h2><b>1</b>燈號</h2><div class="bars"><i></i><i></i><i></i></div>
+  <h2><b>1</b>示範影片</h2><div class="bars"><i></i><i></i><i></i></div>
+  <ol class="vids" id="vids"></ol>
+  <div class="vtools" id="vtools" hidden><button id="vadd">新增影片</button><span class="src" id="vmsg"></span></div>
+</section>
+
+<section id="s2" class="s">
+  <h2><b>2</b>燈號</h2><div class="bars"><i></i><i></i><i></i></div>
   <h3 class="u">飛機燈圈</h3>
+  <p class="led-key u">圖示：一圈共 16 顆燈，上方 10 顆是環形燈，下方 6 顆是尾燈；紅色是正在亮。</p>
   <div class="tbl u"><table class="lookup">
-    <tr><th>燈圈</th><th>說明書寫的</th><th>處理</th></tr>
-    <tr><td><div class="ring chase" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td>跑馬燈：機身傾斜超過 90 度</td><td>烏龜翻鍵快按 2 下</td></tr>
-    <tr><td><div class="ring fast" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td>環形燈快閃：對頻模式或低電壓警告</td><td>先油門到底，再開槳</td></tr>
-    <tr><td><div class="ring three" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td>四分之三的燈條一直閃：非定高模式</td><td>開槳前一樣先油門到底</td></tr>
-    <tr><td><div class="ring tail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td>只有尾燈慢閃：無頭模式</td><td></td></tr>
+    <tr><th>燈號</th><th>說明書寫的</th><th>處理</th></tr>
+    <tr><td><div class="led chase" aria-hidden="true"><i class="r" style="transform:translate(7.4px,-37.3px);--d:0.00s"></i><i class="r" style="transform:translate(21.1px,-31.6px);--d:0.05s"></i><i class="r" style="transform:translate(31.6px,-21.1px);--d:0.10s"></i><i class="r" style="transform:translate(37.3px,-7.4px);--d:0.15s"></i><i class="r" style="transform:translate(37.3px,7.4px);--d:0.20s"></i><i class="t" style="transform:translate(31.6px,21.1px);--d:0.25s"></i><i class="t" style="transform:translate(21.1px,31.6px);--d:0.30s"></i><i class="t" style="transform:translate(7.4px,37.3px);--d:0.35s"></i><i class="t" style="transform:translate(-7.4px,37.3px);--d:0.40s"></i><i class="t" style="transform:translate(-21.1px,31.6px);--d:0.45s"></i><i class="t" style="transform:translate(-31.6px,21.1px);--d:0.50s"></i><i class="r" style="transform:translate(-37.3px,7.4px);--d:0.55s"></i><i class="r" style="transform:translate(-37.3px,-7.4px);--d:0.60s"></i><i class="r" style="transform:translate(-31.6px,-21.1px);--d:0.65s"></i><i class="r" style="transform:translate(-21.1px,-31.6px);--d:0.70s"></i><i class="r" style="transform:translate(-7.4px,-37.3px);--d:0.75s"></i></div></td><td>跑馬燈：機身傾斜超過 90 度</td><td>烏龜翻鍵快按 2 下</td></tr>
+    <tr><td><div class="led fast" aria-hidden="true"><i class="r" style="transform:translate(7.4px,-37.3px);--d:0.40s"></i><i class="r" style="transform:translate(21.1px,-31.6px);--d:0.48s"></i><i class="r" style="transform:translate(31.6px,-21.1px);--d:0.56s"></i><i class="r" style="transform:translate(37.3px,-7.4px);--d:0.64s"></i><i class="r" style="transform:translate(37.3px,7.4px);--d:0.72s"></i><i class="t" style="transform:translate(31.6px,21.1px)"></i><i class="t" style="transform:translate(21.1px,31.6px)"></i><i class="t" style="transform:translate(7.4px,37.3px)"></i><i class="t" style="transform:translate(-7.4px,37.3px)"></i><i class="t" style="transform:translate(-21.1px,31.6px)"></i><i class="t" style="transform:translate(-31.6px,21.1px)"></i><i class="r" style="transform:translate(-37.3px,7.4px);--d:0.00s"></i><i class="r" style="transform:translate(-37.3px,-7.4px);--d:0.08s"></i><i class="r" style="transform:translate(-31.6px,-21.1px);--d:0.16s"></i><i class="r" style="transform:translate(-21.1px,-31.6px);--d:0.24s"></i><i class="r" style="transform:translate(-7.4px,-37.3px);--d:0.32s"></i></div></td><td>環形燈快閃：對頻模式或低電壓警告</td><td>先把左搖桿拉到底，再開槳</td></tr>
+    <tr><td><div class="led three" aria-hidden="true"><i class="r" style="transform:translate(7.4px,-37.3px);--d:0.40s"></i><i class="r" style="transform:translate(21.1px,-31.6px);--d:0.48s"></i><i class="r" style="transform:translate(31.6px,-21.1px);--d:0.56s"></i><i class="r" style="transform:translate(37.3px,-7.4px);--d:0.64s"></i><i class="r" style="transform:translate(37.3px,7.4px);--d:0.72s"></i><i class="t" style="transform:translate(31.6px,21.1px)"></i><i class="t" style="transform:translate(21.1px,31.6px)"></i><i class="t" style="transform:translate(7.4px,37.3px)"></i><i class="t" style="transform:translate(-7.4px,37.3px)"></i><i class="t" style="transform:translate(-21.1px,31.6px)"></i><i class="t" style="transform:translate(-31.6px,21.1px)"></i><i class="r" style="transform:translate(-37.3px,7.4px);--d:0.00s"></i><i class="r" style="transform:translate(-37.3px,-7.4px);--d:0.08s"></i><i class="r" style="transform:translate(-31.6px,-21.1px);--d:0.16s"></i><i class="r" style="transform:translate(-21.1px,-31.6px);--d:0.24s"></i><i class="r" style="transform:translate(-7.4px,-37.3px);--d:0.32s"></i></div></td><td>四分之三的燈條（尾燈以外）一直閃：非定高模式</td><td>開槳前一樣先把左搖桿拉到底</td></tr>
+    <tr><td><div class="led headless" aria-hidden="true"><i class="r" style="transform:translate(7.4px,-37.3px);--d:0.40s"></i><i class="r" style="transform:translate(21.1px,-31.6px);--d:0.48s"></i><i class="r" style="transform:translate(31.6px,-21.1px);--d:0.56s"></i><i class="r" style="transform:translate(37.3px,-7.4px);--d:0.64s"></i><i class="r" style="transform:translate(37.3px,7.4px);--d:0.72s"></i><i class="t" style="transform:translate(31.6px,21.1px)"></i><i class="t" style="transform:translate(21.1px,31.6px)"></i><i class="t" style="transform:translate(7.4px,37.3px)"></i><i class="t" style="transform:translate(-7.4px,37.3px)"></i><i class="t" style="transform:translate(-21.1px,31.6px)"></i><i class="t" style="transform:translate(-31.6px,21.1px)"></i><i class="r" style="transform:translate(-37.3px,7.4px);--d:0.00s"></i><i class="r" style="transform:translate(-37.3px,-7.4px);--d:0.08s"></i><i class="r" style="transform:translate(-31.6px,-21.1px);--d:0.16s"></i><i class="r" style="transform:translate(-21.1px,-31.6px);--d:0.24s"></i><i class="r" style="transform:translate(-7.4px,-37.3px);--d:0.32s"></i></div></td><td>只有尾燈慢閃：無頭模式</td><td></td></tr>
   </table></div>
-  <p class="note u">「整圈快閃」說明書寫是對頻或低電壓，威寰的說明是無定高狀態。不管是哪一種，先把油門收到底再開槳都不會錯。</p>
+  <p class="note u">「整圈快閃」說明書寫是對頻或低電壓，小宇宙的說明是無定高狀態。不管是哪一種，先把左搖桿拉到底再開槳都不會錯。</p>
   <h3 class="u">遙控器指示燈</h3>
   <div class="tbl u"><table class="t">
     <tr><th>指示燈</th><th>意思</th></tr>
@@ -225,8 +234,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </table></div>
 </section>
 
-<section id="s2" class="s">
-  <h2><b>2</b>遙控器按鍵</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s3" class="s">
+  <h2><b>3</b>遙控器按鍵</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="two">
     <div class="tbl u"><table class="t">
       <tr><th>編號</th><th>按鍵</th><th>在哪裡</th></tr>
@@ -246,8 +255,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s3" class="s">
-  <h2><b>3</b>對碼與校正</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s4" class="s">
+  <h2><b>4</b>對碼與校正</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>對碼（對頻）</h3>
     <ol class="seq">
       <li>飛機接上電池，電源鍵連續快按 3 下，燈全部快閃，進入對頻。</li>
@@ -275,8 +284,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s4" class="s">
-  <h2><b>4</b>模式、燈光、微調</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s5" class="s">
+  <h2><b>5</b>模式、燈光、微調</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>Mode 1／Mode 2</h3>
     <div class="tbl"><table class="t">
       <tr><th></th><th>怎麼進入</th><th>左搖桿</th><th>右搖桿</th></tr>
@@ -286,7 +295,7 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <p class="src">另一款遙控器（說明書的遙控器 1）用撥桿切換：下檔開機是 Mode 1，上檔是 Mode 2。</p></div>
   <div class="u"><h3>燈光</h3>
     <ul><li>按燈光鍵：尾燈換顏色，共 7 種。</li>
-    <li>油門拉到最下再按燈光鍵：Team 燈在紅、藍、關之間切換。</li></ul></div>
+    <li>左搖桿拉到最下再按燈光鍵：Team 燈在紅、藍、關之間切換。</li></ul></div>
   <div class="u"><h3>微調</h3>
     <p>起飛後如果會飄，用十字鍵 <span class="num">9</span> 修正。遙控器 1 是按住對碼鍵再推右搖桿。</p></div>
   <div class="pics">
@@ -295,8 +304,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   </div>
 </section>
 
-<section id="s5" class="s">
-  <h2><b>5</b>翻機處理</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s6" class="s">
+  <h2><b>6</b>翻機處理</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>反烏龜（燈一圈一圈閃）</h3>
     <p>機身倒超過 90 度，燈圈會跑馬燈。快按 2 下烏龜翻鍵 <span class="num">4</span>，每按一次換一組馬達轉：</p>
     <div class="tbl"><table class="t" style="max-width:320px">
@@ -309,13 +318,13 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <p>倒的角度不同，能翻回來的組合就不同。第一次沒翻過來很正常，繼續換下一組。</p></div>
   <div class="u"><h3>沒有跑馬燈的時候</h3>
     <p>直接開槳，靠馬達推力加上搖桿方向，讓飛機自己翻出來。</p></div>
-  <div class="u"><h3>無定高模式：油門到底再開槳</h3>
-    <ol class="seq"><li>油門收到最底</li><li>開槳</li><li>開始飛</li></ol>
-    <p>這樣做是為了安全：飛機走 ELRS，跟一般無刷 FPV 機一樣，摔了、撞了或重開時要先收油門，馬達才不會一開就衝。</p></div>
+  <div class="u"><h3>無定高模式：左搖桿拉到底再開槳</h3>
+    <ol class="seq"><li>左搖桿拉到最底</li><li>開槳</li><li>開始飛</li></ol>
+    <p>這樣做是為了安全：飛機走 ELRS，跟一般無刷 FPV 機一樣，摔了、撞了或重開時要先把左搖桿拉到底，馬達才不會一開就衝。</p></div>
 </section>
 
-<section id="s6" class="s">
-  <h2><b>6</b>ELRS 與 TX16S</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s7" class="s">
+  <h2><b>7</b>ELRS 與 TX16S</h2><div class="bars"><i></i><i></i><i></i></div>
   <div class="u"><h3>TX16S 通道設定</h3>
     <div class="two">
       <div class="tbl"><table class="t">
@@ -336,8 +345,8 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <p>學校想改 ELRS，可以直接買已經焊好的接收機接上飛機，不用自己焊。</p></div>
 </section>
 
-<section id="s7" class="s">
-  <h2><b>7</b>練習項目</h2><div class="bars"><i></i><i></i><i></i></div>
+<section id="s8" class="s">
+  <h2><b>8</b>練習項目</h2><div class="bars"><i></i><i></i><i></i></div>
   <p class="u">只會正常飛不夠，翻機和重開這些狀況也要排進平常練習。</p>
   <div class="check u" id="checklist">
     <div class="top"><span id="prog"></span><button id="reset">全部取消</button></div>
@@ -345,19 +354,15 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     <label><input type="checkbox"><span>會用反烏龜鍵</span></label>
     <label><input type="checkbox"><span>知道 4 組馬達的輪替順序</span></label>
     <label><input type="checkbox"><span>各種角度翻倒都實際試過</span></label>
-    <label><input type="checkbox"><span>無定高模式記得油門到底再開槳</span></label>
+    <label><input type="checkbox"><span>無定高模式記得左搖桿拉到底再開槳</span></label>
     <label><input type="checkbox"><span>會用開槳加搖桿把飛機翻出來</span></label>
     <label><input type="checkbox"><span>看過示範影片</span></label>
   </div>
 </section>
 
-<section id="s8" class="s">
-  <h2><b>8</b>示範影片</h2><div class="bars"><i></i><i></i><i></i></div>
-  <ol class="vids" id="vids"></ol>
-  <div class="vtools" id="vtools" hidden><button id="vadd">新增影片</button><span class="src" id="vmsg"></span></div>
-</section>
 
-<footer>S3 足球無人機操作手冊・整理自原廠說明書與威寰操作說明</footer>
+
+<footer>S3 足球無人機操作手冊・整理自原廠說明書與小宇宙操作說明</footer>
 </div>
 
 <dialog id="lb"><img id="lbimg" alt=""></dialog>
@@ -368,7 +373,7 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   const q=document.getElementById('q'),clr=document.getElementById('clear'),none=document.getElementById('none'),page=document.querySelector('.page');
   const sections=[...document.querySelectorAll('section.s')];
   const extra=[...document.querySelectorAll('.cover .index,.cover .motto')];
-  const syn={'反烏龜':['反烏龜','烏龜翻','烏龜','反龜','跑馬燈','翻機','翻過來','翻出來'],'油門到底':['油門到底','油門收到','收油門','油門'],'對碼':['對碼','對頻','連上'],'定高':['定高','非定高','無定高'],'影片':['影片'],'燈光':['燈光','尾燈','Team 燈'],'校正':['校正','校好']};
+  const syn={'反烏龜':['反烏龜','烏龜翻','烏龜','反龜','跑馬燈','翻機','翻過來','翻出來'],'左搖桿到底':['左搖桿','拉到底','拉到最底','拉到最下','油門'],'對碼':['對碼','對頻','連上'],'定高':['定高','非定高','無定高'],'影片':['影片'],'燈光':['燈光','尾燈','Team 燈'],'校正':['校正','校好']};
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   function unmark(){page.querySelectorAll('mark').forEach(m=>m.replaceWith(m.textContent));page.normalize()}
   function mark(terms){
@@ -409,11 +414,15 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   // ===== 示範影片（可編輯）=====
   // ▼ 影片清單：要改名稱、說明、連結，直接改這裡 ▼
   const FALLBACK=[
-    {id:'v1',title:'示範影片 1',note:'',url:'https://youtube.com/shorts/vFB2kmYEk80',order:1},
-    {id:'v2',title:'示範影片 2',note:'',url:'https://youtube.com/shorts/uB5x5IU6J_s',order:2}];
+    {id:'v1',title:'反烏龜說明',note:'',url:'https://youtube.com/shorts/T0ovq8NUO7U',order:1},
+    {id:'v2',title:'非定高｜一定要 0 位才能起槳',note:'',url:'https://youtube.com/shorts/Rmm-tdEUA5I',order:2},
+    {id:'v3',title:'定高｜連線要推到中間，不能 0 位',note:'',url:'https://youtube.com/shorts/qqNAnIHccUY',order:3}];
   const list=document.getElementById('vids'),tools=document.getElementById('vtools'),msg=document.getElementById('vmsg');
   let videos=FALLBACK.slice(),canWrite=false,col=null,editing=null;
   const safe=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch(e){return ''}};
+  const ytId=u=>{const m=String(u||'').match(/(?:youtu\.be\/|shorts\/|embed\/|[?&]v=)([\w-]{11})/);return m?m[1]:''};
+  let embedOK=true;
+  document.addEventListener('securitypolicyviolation',e=>{if(embedOK&&/youtube/.test(e.blockedURI||'')){embedOK=false;render()}});
   function el(tag,props,kids){const e=document.createElement(tag);Object.assign(e,props||{});(kids||[]).forEach(k=>e.append(k));return e}
   function form(v){
     const t=el('input',{value:v.title||'',placeholder:'例如：反烏龜翻正示範'}),
@@ -441,8 +450,21 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
       const href=safe(v.url);
       const li=el('li',{className:'u'});
       if(!v.isNew){
-        const pl=el('a',{className:'play',href:href||'#',target:'_blank',rel:'noopener'});pl.setAttribute('aria-label','在 YouTube 播放：'+(v.title||''));li.append(pl);
+        const id=ytId(href);
         li.append(el('h4',{textContent:v.title||'未命名影片'}));
+        if(id&&embedOK){
+          const box=el('button',{className:'yt',type:'button'});box.setAttribute('aria-label','播放：'+(v.title||'影片'));
+          const im=el('img',{src:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg',alt:'',loading:'lazy'});im.onerror=()=>im.remove();
+          box.append(im,el('span',{className:'pbtn'}));
+          box.onclick=()=>{const f=el('iframe',{src:'https://www.youtube-nocookie.com/embed/'+id+'?rel=0&playsinline=1&autoplay=1',title:v.title||'影片',allowFullscreen:true});
+            f.setAttribute('allow','autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen');
+            f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+            const w=el('div',{className:'yt'});w.append(f);box.replaceWith(w)};
+          li.append(box);
+        }else{
+          const pl=el('a',{className:'play',href:href||'#',target:'_blank',rel:'noopener'});pl.setAttribute('aria-label','在 YouTube 播放：'+(v.title||''));
+          pl.append(el('span',{className:'pbtn'}),el('strong',{textContent:v.title||'影片'}),el('small',{textContent:'點一下到 YouTube 播放'}));li.append(pl);
+        }
         if(v.note)li.append(el('p',{textContent:v.note}));
         const row=el('div',{className:'row'},[el('a',{href:href||'#',target:'_blank',rel:'noopener',textContent:'在 YouTube 開啟'})]);
         if(canWrite){const b=el('button',{textContent:editing===v.id?'收起':'編輯'});b.onclick=()=>{editing=editing===v.id?null:v.id;render()};row.append(b)}
@@ -459,7 +481,7 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
     const db=(window.claude&&window.claude.use)?await window.claude.use('db'):null;
     if(!db){ // GitHub／單機檔：網址加上 ?edit 才能編輯，內容只存在這台電腦的瀏覽器
       if(!/[?&]edit\b/.test(location.search))return;
-      const KEY='s3-videos';
+      const KEY='s3-videos-v2';
       try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(Array.isArray(s))videos=s}catch(e){}
       const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(videos))}catch(e){};videos.sort((a,b)=>a.order-b.order);render()};
       col={doc:id=>({set:async d=>{const i=videos.findIndex(v=>v.id===id);const r=Object.assign({id},d);if(i<0)videos.push(r);else videos[i]=r;persist()},
