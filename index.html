@@ -138,25 +138,35 @@ video{width:100%;max-height:72vh;background:#000}
 .check .top button{font:inherit;border:0;background:none;color:var(--sub);text-decoration:underline;cursor:pointer;padding:0}
 
 
-.vids{list-style:none;margin:8px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px 18px}
-.vtools[hidden]{display:none}
-.vids li{display:flex;flex-direction:column;gap:8px;min-width:0}
-.vids h4{margin:0;font-size:16px;font-weight:700;line-height:1.5;min-height:3em}
-.vids .yt{position:relative;display:block;width:100%;max-width:340px;aspect-ratio:9/16;background:#1b1b1b;border:1px solid var(--ink);padding:0;cursor:pointer;overflow:hidden}
-.vids .yt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.vids .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.vids .pbtn{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:var(--red);box-shadow:0 2px 10px rgba(0,0,0,.35)}
-.vids .pbtn::after{content:"";position:absolute;left:25px;top:19px;border-left:20px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent}
-.vids .yt:hover .pbtn{transform:scale(1.08)}
-.vids .play{position:relative;width:100%;max-width:340px;aspect-ratio:9/16;background:#1b1b1b;color:#fff;border:1px solid var(--ink);display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:16px;text-decoration:none}
-.vids .play strong{font-size:17px;line-height:1.4}
-.vids .play small{font-size:13px;opacity:.75}
-.vids .play:hover .pbtn{transform:scale(1.08)}
-.vids p{margin:0;white-space:pre-line;font-size:15px}
+.vids{list-style:none;margin:8px 0;padding:0;border-top:1px solid var(--rule)}
+.vids li{border-bottom:1px solid var(--rule)}
+.vd summary{list-style:none;display:flex;align-items:center;gap:14px;padding:10px 0;cursor:pointer}
+.vd summary::-webkit-details-marker{display:none}
+.vd .thumb{flex:none;width:96px;height:96px;border:1px solid var(--ink);display:block}
+.vd .thumb svg{display:block}
+.vd .thumb{position:relative;cursor:pointer}
+.vd .badge{position:absolute;right:4px;bottom:4px;width:24px;height:24px;border-radius:50%;background:var(--red)}
+.vd .badge::after{content:"";position:absolute;left:9px;top:6px;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.vd .thumb:hover .badge{transform:scale(1.12)}
+.vd .vt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.vd h4{margin:0;font-size:17px;font-weight:700;line-height:1.45}
+.vd .vt small{color:var(--sub);font-size:14px}
+.vd .chev{flex:none;width:28px;height:28px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.vd .chev::after{content:"";position:absolute;left:8px;top:6px;width:8px;height:8px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.vd[open] .chev{background:var(--ink)}
+.vd[open] .chev::after{border-color:#fff;transform:rotate(-135deg);top:10px}
+.vd summary:hover h4{color:var(--red)}
+.vbody{padding:0 0 16px 110px;display:flex;flex-direction:column;gap:10px}
+.vbody .yt{position:relative;width:100%;max-width:300px;aspect-ratio:9/16;background:#1b1b1b;border:1px solid var(--ink)}
+.vbody .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vbody .golink{display:inline-block;border:1.5px solid var(--red);color:var(--red);padding:6px 14px;text-decoration:none;font-weight:700;width:max-content}
+.vbody .golink:hover{background:var(--red-soft)}
+.vbody p{margin:0;white-space:pre-line;font-size:15px}
 .vids .row{display:flex;gap:14px;font-size:14px}
 .vids .row a{color:var(--red)}
 .vids .row button,.vtools button,.vform button{font:inherit;font-size:14px;border:0;background:none;color:var(--sub);text-decoration:underline;cursor:pointer;padding:0}
-@media (max-width:520px){.vids{grid-template-columns:1fr}.vids .yt,.vids .play{max-width:none;margin:0 auto}}
+@media (max-width:520px){.vbody{padding-left:0}.vd .thumb{width:72px;height:72px}.vd .thumb svg{width:72px;height:72px}}
+.vtools[hidden]{display:none}
 .vtools{margin-top:12px;display:flex;gap:14px;align-items:center}
 .vtools button{border:1px solid var(--ink);text-decoration:none;color:var(--ink);padding:4px 12px}
 .vform{display:grid;gap:8px;margin-top:8px;background:#F7F7F5;padding:12px;border:1px solid var(--rule)}
@@ -421,7 +431,19 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
   let videos=FALLBACK.slice(),canWrite=false,col=null,editing=null;
   const safe=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch(e){return ''}};
   const ytId=u=>{const m=String(u||'').match(/(?:youtu\.be\/|shorts\/|embed\/|[?&]v=)([\w-]{11})/);return m?m[1]:''};
-  let embedOK=true;
+  const openSet=new Set();
+  function thumbSVG(t){
+    const ring=(r,cx,cy,lit)=>{let s='';for(let k=0;k<16;k++){const a=(11.25+22.5*k)*Math.PI/180;s+=`<circle cx="${(cx+r*Math.sin(a)).toFixed(1)}" cy="${(cy-r*Math.cos(a)).toFixed(1)}" r="2.6" fill="${lit(k)?'#D6434F':'#E4E4E0'}" stroke="${lit(k)?'#D6434F':'#8E8E8E'}" stroke-width=".8"/>`}return s};
+    const gimbal=(ky,arrows)=>`<rect x="26" y="20" width="44" height="56" rx="6" fill="#fff" stroke="#262626" stroke-width="1.6"/><line x1="48" y1="26" x2="48" y2="70" stroke="#CFCFCF" stroke-width="1.2"/><line x1="32" y1="48" x2="64" y2="48" stroke="#CFCFCF" stroke-width="1.2"/>${arrows}<circle cx="48" cy="${ky}" r="8" fill="#262626"/><circle cx="48" cy="${ky}" r="3" fill="#fff"/>`;
+    let inner;
+    if(/中間/.test(t)) inner=gimbal(48,'<path d="M48 24 v12 m-4 -4 l4 4 4 -4 M48 72 v-12 m-4 4 l4 -4 4 4" stroke="#D6434F" stroke-width="2.2" fill="none"/>')+'<text x="76" y="52" font-size="11" font-weight="700" fill="#D6434F">中</text>';
+    else if(/0\s*位|非定高|起槳/.test(t)) inner=gimbal(66,'<path d="M48 30 v22 m-5 -5 l5 5 5 -5" stroke="#D6434F" stroke-width="2.2" fill="none"/>')+'<text x="74" y="72" font-size="13" font-weight="700" fill="#D6434F">0</text>';
+    else if(/烏龜|翻/.test(t)) inner=`<g transform="rotate(180 48 50)">${ring(22,48,50,k=>k<4)}</g><path d="M20 30 A32 32 0 0 1 72 22" stroke="#D6434F" stroke-width="2.4" fill="none"/><path d="M66 16 l7 6 -8 4" stroke="#D6434F" stroke-width="2.4" fill="none"/><text x="48" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#262626">翻</text>`;
+    else inner=ring(24,48,48,k=>k%4===0)+'<path d="M43 39 l12 9 -12 9z" fill="#D6434F"/>';
+    return `<svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true"><rect width="96" height="96" fill="#F4F4F2"/>${inner}</svg>`;
+  }
+  // Claude 線上版不允許內嵌 YouTube：改成點縮圖直接到 YouTube 播放
+  let embedOK=!(window.claude&&window.claude.use);
   document.addEventListener('securitypolicyviolation',e=>{if(embedOK&&/youtube/.test(e.blockedURI||'')){embedOK=false;render()}});
   function el(tag,props,kids){const e=document.createElement(tag);Object.assign(e,props||{});(kids||[]).forEach(k=>e.append(k));return e}
   function form(v){
@@ -451,24 +473,26 @@ dialog img{max-height:92vh;max-width:96vw;cursor:zoom-out;border:1px solid var(-
       const li=el('li',{className:'u'});
       if(!v.isNew){
         const id=ytId(href);
-        li.append(el('h4',{textContent:v.title||'未命名影片'}));
-        if(id&&embedOK){
-          const box=el('button',{className:'yt',type:'button'});box.setAttribute('aria-label','播放：'+(v.title||'影片'));
-          const im=el('img',{src:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg',alt:'',loading:'lazy'});im.onerror=()=>im.remove();
-          box.append(im,el('span',{className:'pbtn'}));
-          box.onclick=()=>{const f=el('iframe',{src:'https://www.youtube-nocookie.com/embed/'+id+'?rel=0&playsinline=1&autoplay=1',title:v.title||'影片',allowFullscreen:true});
-            f.setAttribute('allow','autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-            f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
-            const w=el('div',{className:'yt'});w.append(f);box.replaceWith(w)};
-          li.append(box);
-        }else{
-          const pl=el('a',{className:'play',href:href||'#',target:'_blank',rel:'noopener'});pl.setAttribute('aria-label','在 YouTube 播放：'+(v.title||''));
-          pl.append(el('span',{className:'pbtn'}),el('strong',{textContent:v.title||'影片'}),el('small',{textContent:'點一下到 YouTube 播放'}));li.append(pl);
-        }
-        if(v.note)li.append(el('p',{textContent:v.note}));
+        const d=el('details',{className:'vd'});d.open=openSet.has(v.id);
+        const sum=el('summary');
+        const th=(id&&embedOK)?el('span',{className:'thumb'}):el('a',{className:'thumb',href:href||'#',target:'_blank',rel:'noopener'});
+        th.setAttribute('aria-label','播放：'+(v.title||'影片'));th.innerHTML=thumbSVG(v.title||'')+'<span class="badge"></span>';
+        const txt=el('span',{className:'vt'},[el('h4',{textContent:v.title||'未命名影片'})]);
+        if(v.note)txt.append(el('small',{textContent:v.note.split('\n')[0]}));
+        sum.append(th,txt,el('span',{className:'chev'}));
+        const body=el('div',{className:'vbody'});
+        const ph=el('div',{className:'ph'});body.append(ph);
+        const fill=()=>{if(ph.firstChild)return;
+          if(id&&embedOK){const f=el('iframe',{src:'https://www.youtube-nocookie.com/embed/'+id+'?rel=0&playsinline=1&autoplay=1',title:v.title||'影片',allowFullscreen:true});
+            f.setAttribute('allow','autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen');f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+            const w=el('div',{className:'yt'});w.append(f);ph.append(w)}
+          else{ph.append(el('a',{className:'golink',href:href||'#',target:'_blank',rel:'noopener',textContent:'▶ 到 YouTube 播放這支影片'}))}};
+        d.addEventListener('toggle',()=>{if(d.open){openSet.add(v.id);fill()}else{openSet.delete(v.id);ph.textContent=''}});
+        if(d.open)fill();
+        if(v.note)body.append(el('p',{textContent:v.note}));
         const row=el('div',{className:'row'},[el('a',{href:href||'#',target:'_blank',rel:'noopener',textContent:'在 YouTube 開啟'})]);
-        if(canWrite){const b=el('button',{textContent:editing===v.id?'收起':'編輯'});b.onclick=()=>{editing=editing===v.id?null:v.id;render()};row.append(b)}
-        li.append(row);
+        if(canWrite){const b=el('button',{textContent:editing===v.id?'收起編輯':'編輯'});b.onclick=()=>{editing=editing===v.id?null:v.id;render()};row.append(b)}
+        body.append(row);d.append(sum,body);li.append(d);
       }
       if(canWrite&&editing===v.id)li.append(form(v));
       list.append(li);
